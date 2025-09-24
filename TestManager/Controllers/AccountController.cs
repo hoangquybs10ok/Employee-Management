@@ -21,23 +21,26 @@ namespace TestManager.Controllers
         public IActionResult Login()
         {
             if (HttpContext.Session.GetString("UserName") != null)
+            {
                 return RedirectToAction("Index", "Home");
+            }
+
             return View();
         }
         [HttpPost("login")]
         public IActionResult Login(LoginModel model)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
                 return View(model);
-            var user = _context.Users.FirstOrDefault(u =>u.UserName == model.UserName);
-            if(user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
+            var user = _context.Users.FirstOrDefault(u => u.UserName == model.UserName);
+            if (user == null || !BCrypt.Net.BCrypt.Verify(model.Password, user.PasswordHash))
             {
-                ModelState.AddModelError(string.Empty,"Sai tai khoan hoac mat khau!" );
+                ModelState.AddModelError(string.Empty, "Sai tai khoan hoac mat khau!");
                 return View(model);
             }
             if (!string.IsNullOrEmpty(user.UserName))
             {
-                HttpContext.Session.SetString("UserName",user.UserName);
+                HttpContext.Session.SetString("UserName", user.UserName);
             }
             return RedirectToAction("Index", "Home");
         }
