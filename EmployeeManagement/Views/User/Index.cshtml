@@ -1,0 +1,65 @@
+﻿@model IEnumerable<EmployeeManagement.Entity.UserEntity>
+
+@{
+    ViewData["Title"] = "User List";
+
+    var users = Model;
+}
+<div class="col-md-12">
+    <a type="button" class="btn btn-primary btn-create" href="/users/create">Create</a>
+</div>
+<div class="text-center">
+    <div class="col-md-12">
+        <table class="table">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Username</th>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Project</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var user in users)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.UserName</td>
+                        <td>@user.FullName</td>
+                        <td>@user.Email</td>
+                        <td>
+                            @if (user.UserProjects != null && user.UserProjects.Any(up => up.Project != null))
+                            {
+                                                @string.Join(", ", user.UserProjects
+                                                .Where(up => up.Project != null)
+                                                .Select(up => up.Project!.Name))
+                                                }
+                            else
+                            {
+                                <span class="text-muted">No project</span>
+                            }
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@user.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Detail" asp-route-id="@user.Id" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@user.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-create{
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+}
+

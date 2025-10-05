@@ -1,0 +1,56 @@
+﻿@model EmployeeManagement.Models.TimeLogModel
+
+@{
+    ViewData["Title"] = "Edit TimeLog";
+    var employees = ViewBag.Employee as List<EmployeeManagement.Entity.UserEntity>;
+}
+
+<h2>Edit TimeLog</h2>
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="form-group">
+        <label for="UserId">Employee</label>
+        <select asp-for="UserId"
+                asp-items="@(new SelectList(ViewBag.Employee, "Id", "FullName", Model.UserId))"
+                class="form-control">
+            <option value="">-- Select Employee --</option>
+        </select>
+        <span asp-validation-for="UserId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="CheckIn"></label>
+        <input asp-for="CheckIn" type="datetime-local" class="form-control" />
+        <span asp-validation-for="CheckIn" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CheckOut"></label>
+        <input asp-for="CheckOut" type="datetime-local" class="form-control" />
+        <span asp-validation-for="CheckOut" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Task"></label>
+        <input asp-for="Task" class="form-control" />
+        <span asp-validation-for="Task" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-success">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Styles {
+    <style>
+        form {
+            margin-top: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+    </style>
+}

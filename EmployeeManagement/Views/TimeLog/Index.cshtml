@@ -1,0 +1,54 @@
+﻿@model List<EmployeeManagement.Models.TimeLogModel>
+
+@{
+    ViewData["Title"] = "TimeLog Management";
+}
+
+<div class="col-md-12">
+    <a type="button" class="btn btn-primary btn-create" href="/timelog/create">Create</a>
+</div>
+
+<div class="text-center">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">User</th>
+                    <th scope="col">Check In</th>
+                    <th scope="col">Check Out</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var time in Model)
+                {
+                    <tr>
+                        <td>@time.UserId</td>
+                        <td>@time.CheckIn</td>
+                        <td>@time.CheckOut</td>
+                        <td>@time.Task</td>
+                        <td>@time.Description</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@time.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Detail" asp-route-id="@time.Id" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@time.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-create {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+}

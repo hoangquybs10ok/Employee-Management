@@ -1,0 +1,55 @@
+﻿@model List<EmployeeManagement.Models.ProjectModel>
+
+@{
+    ViewData["Title"] = "TimeLog Management";
+}
+
+<div class="col-md-12">
+    <a type="button" class="btn btn-primary btn-create" href="/project/create">Create</a>
+</div>
+
+<div class="text-center">
+    <div class="col-md-12">
+        <table class="table table-bordered">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">StartDate</th>
+                    <th scope="col">EndDate</th>
+                    <th scope="col">Status</th>
+                    <th scopr="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var p in Model)
+                {
+                    <tr>
+                        <td>@p.Id</td>
+                        <td>@p.Name</td>
+                        <td>@p.Description</td>
+                        <td>@p.StartDate</td>
+                        <td>@p.EndDate</td>
+                        <td>@p.Status</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@p.Id" class="btn btn-sm btn-warning">Edit</a>
+                            <a asp-action="Detail" asp-route-id="@p.Id" class="btn btn-sm btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@p.Id" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Styles {
+    <style>
+        .btn-create {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+    </style>
+}

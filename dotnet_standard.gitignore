@@ -1,0 +1,61 @@
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Ll]og/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]/
+[Aa][Rr][Mm]64/
+
+# VS temporary files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.pdb
+*.cache
+*.ilk
+
+# VS folders
+.vs/
+.vscode/
+
+# NuGet packages
+*.nupkg
+*.snupkg
+# Ignore package folders, but keep build dependencies if needed
+**/packages/*
+!**/packages/build/
+*.nuspec
+
+# Rider / Resharper
+.idea/
+*.DotSettings.user
+
+# OS generated files
+Thumbs.db
+ehthumbs.db
+[Dd]esktop.ini
+$RECYCLE.BIN/
+
+# Test results
+TestResult*/
+*.trx
+*.VisualState.xml
+*.testlog
+
+# Publish output
+publish/
+*.Publish.xml
+
+# Others
+*.bak
+*.swp
+*.tmp
+*.log
+
+# Entity Framework Migrations snapshot
+*Migrations/*.Designer.cs

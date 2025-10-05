@@ -1,0 +1,40 @@
+﻿@model EmployeeManagement.Models.TimeLogModel
+
+@{
+    ViewData["Title"] = "Delete TimeLog";
+}
+
+<h2>Delete TimeLog</h2>
+
+<h4>Bạn có chắc chắn muốn xóa TimeLog này?</h4>
+<hr />
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.Id</dd>
+
+        <dt class="col-sm-2">UserId</dt>
+        <dd class="col-sm-10">@Model.UserId</dd>
+
+        <dt class="col-sm-2">Check In</dt>
+        <dd class="col-sm-10">@Model.CheckIn</dd>
+
+        <dt class="col-sm-2">Check Out</dt>
+        <dd class="col-sm-10">@Model.CheckOut</dd>
+
+        <dt class="col-sm-2">Task</dt>
+        <dd class="col-sm-10">@Model.Task</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+
+    </dl>
+</div>
+<form asp-action="DeleteConfirmed" asp-route-id="@Model.Id" method="post">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="Id" />
+
+    <button type="submit" class="btn btn-danger">Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

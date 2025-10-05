@@ -1,0 +1,52 @@
+﻿@model EmployeeManagement.Models.ProjectModel
+@{
+    ViewData["Title"] = "Create Project";
+}
+
+<div class="col-md-8">
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header">
+            <div class="card-title">Create Project</div>
+        </div>
+
+        <form asp-controller="Project" asp-action="Create" method="post">
+            <div class="card-body">
+
+                <!-- Name -->
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Project Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+                <!-- Description -->
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <input asp-for="Description" class="form-control" />
+                </div>
+
+                <!-- Start Date -->
+                <div class="mb-3">
+                    <label asp-for="StartDate" class="form-label">Start Date</label>
+                    <input asp-for="StartDate" type="datetime-local" class="form-control" />
+                </div>
+
+                <!-- End Date -->
+                <div class="mb-3">
+                    <label asp-for="EndDate" class="form-label">End Date</label>
+                    <input asp-for="EndDate" type="datetime-local" class="form-control" />
+                </div>
+
+                <!-- Status -->
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <input asp-for="Status" class="form-control" />
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <a href="/project">Back to project management</a>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

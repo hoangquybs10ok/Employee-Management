@@ -1,0 +1,41 @@
+﻿@model EmployeeManagement.Models.TimeLogModel;
+@{
+    ViewData["Title"] = "Use Details ";
+}
+<div class="col-md-6">
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header"><div class="card-title">User Details</div></div>
+        <form>
+            <div class="card-body">
+                
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label UserId">UserId</label>
+                    <input type="text" asp-for="UserName" id="UserName" value="@Model.UserId" class="form-control" disabled>
+
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label CheckIn">CheckIn</label>
+                    <input type="text" asp-for="CheckIn" id="FullName" value="@Model.CheckIn" class="form-control" disabled>
+
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label CheckOut">CheckOut</label>
+                    <input type="email" asp-for="CheckOut" id="Email" value="@Model.CheckOut" class="form-control" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label Task">Task</label>
+                    <input type="email" asp-for="Task" id="Email" value="@Model.Task" class="form-control" disabled>
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label Description">Description</label>
+                    <input type="email" asp-for="CheckOut" id="Email" value="@Model.Description" class="form-control" disabled>
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <a href="/timelog">Back to timelog management</a>
+            </div>
+        </form>
+    </div>
+</div>
+

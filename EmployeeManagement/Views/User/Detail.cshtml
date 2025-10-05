@@ -1,0 +1,58 @@
+﻿@model EmployeeManagement.Models.UserModel
+@{
+    ViewData["Title"] = "User Details";
+
+    var projects = (ViewBag.Projects as List<EmployeeManagement.Models.ProjectModel>) ?? new List<EmployeeManagement.Models.ProjectModel>();
+    var projectIds = Model?.ProjectIds ?? new List<int>();
+}
+
+<div class="col-md-6">
+    <div class="card card-primary card-outline mb-4">
+        <div class="card-header">
+            <div class="card-title">User Details</div>
+        </div>
+
+        <div class="card-body">
+            <div class="mb-3">
+                <label class="form-label">Id</label>
+                <input type="text" asp-for="Id" class="form-control" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" asp-for="UserName" class="form-control" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Full Name</label>
+                <input type="text" asp-for="FullName" class="form-control" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" asp-for="Email" class="form-control" disabled />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Projects</label>
+                <ul class="list-group">
+                    @if (projects.Any() && projectIds.Any())
+                    {
+                        @foreach (var project in projects.Where(p => projectIds.Contains(p.Id)))
+                        {
+                            <li class="list-group-item">@project.Name</li>
+                        }
+                    }
+                    else
+                    {
+                        <li class="list-group-item text-muted">No project assigned</li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer">
+            <a href="/users" class="btn btn-secondary">Back to user management</a>
+        </div>
+    </div>
+</div>
