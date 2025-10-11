@@ -1,4 +1,4 @@
-﻿namespace EmployeeManagement.Entity
+﻿namespace EmployeeManagement.EF.Entity
 {
     public class CategoryEntity : EntityBase
     {

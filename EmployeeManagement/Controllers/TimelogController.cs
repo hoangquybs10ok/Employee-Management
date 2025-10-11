@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Entity;
 using EmployeeManagement.Models;
-using EmployeeManagement.Repository;
-using EmployeeManagement.TestDb;
+using EmployeeManagement.EF.Entity;
+using EmployeeManagement.EF.Repository.Interface;
+
 
 namespace EmployeeManagement.Controllers
 {
     [Route("timelog")]
-    public class TimelogController : Controller
+    public class TimelogController : BaseController
     {
         private readonly ITimeLogRepository _timeLogRepository;
         private readonly IUserRepository _userRepository;
@@ -30,6 +29,7 @@ namespace EmployeeManagement.Controllers
                 Description = x.Description,
                 Task = x.Task,
             }).ToList();
+            ViewBag.CurrentRole = HttpContext.Session.GetString("UserRole");
             return View(timelogs);
         }
         [HttpGet("create")]

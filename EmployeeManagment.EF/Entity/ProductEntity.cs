@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage;
 
-namespace EmployeeManagement.Entity
+namespace EmployeeManagement.EF.Entity
 {
     public class ProductEntity : EntityBase
     {

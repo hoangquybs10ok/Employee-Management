@@ -1,14 +1,14 @@
-﻿using EmployeeManagement.Entity;
+﻿using EmployeeManagement.EF.Entity;
 using System.Collections.Generic;
 
-namespace EmployeeManagement.Repository
+namespace EmployeeManagement.EF.Repository.Interface
 {
     public interface IProjectRepository
     {
         IEnumerable<ProjectEntity> GetAll();
         ProjectEntity? GetById(int id);
-        void Create(ProjectEntity project);
-        void Edit(ProjectEntity project);
+        void Create(ProjectEntity entity);
+        void Edit(ProjectEntity entity);
         void Delete(int id);
         void Save();
     }

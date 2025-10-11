@@ -1,7 +1,7 @@
-﻿using EmployeeManagement.Entity;
+﻿using EmployeeManagement.EF.Entity;
 using EmployeeManagement.Models;
 
-namespace EmployeeManagement.Repository
+namespace EmployeeManagement.EF.Repository.Interface
 {
     public interface ITimeLogRepository
     {

@@ -1,4 +1,7 @@
-﻿namespace EmployeeManagement.Models
+﻿using EmployeeManagement.EF.Entity.Enums;
+using EmployeeManagement.EF.Models;
+
+namespace EmployeeManagement.Models
 {
     public class UserModel
     {
@@ -11,5 +14,6 @@
         public List<TimeLogModel> TimeLogs { get; set; } = new List<TimeLogModel>();
         public List<int>? ProjectIds { get; set; }
         public List<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
+        public RoleType Role { get; set; }
     }
 }

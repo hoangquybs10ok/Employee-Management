@@ -1,5 +1,10 @@
-using EmployeeManagement.Repository;
-using EmployeeManagement.TestDb;
+﻿using EmployeeManagement.EF.Entity;
+using EmployeeManagement.EF.Repository;
+using EmployeeManagement.EF.Repository.Interface;
+using EmployeeManagement.EF.TestDb;
+using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,4 +47,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-

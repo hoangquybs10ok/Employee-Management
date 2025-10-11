@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Entity;
+using EmployeeManagement.EF.Entity;
 using EmployeeManagement.Models;
-using EmployeeManagement.TestDb;
+using EmployeeManagement.EF.TestDb;
+using EmployeeManagement.EF.Repository.Interface;
 
-namespace EmployeeManagement.Repository
+
+namespace EmployeeManagement.EF.Repository
 {
     public class UserRepository : IUserRepository
     {
@@ -26,6 +28,7 @@ namespace EmployeeManagement.Repository
             var user = new UserEntity
             {
                 UserName = model.UserName,
+                Role = model.Role,
                 FullName = model.FullName,
                 Email = model.Email,
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password),
@@ -69,6 +72,7 @@ namespace EmployeeManagement.Repository
             user.UserName = model.UserName;
             user.FullName = model.FullName;
             user.Email = model.Email;
+            user.Role = model.Role;
             if (!string.IsNullOrEmpty(model.Password))
             {
                 user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(model.Password);

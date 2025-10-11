@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Entity;
 using EmployeeManagement.Models;
-using EmployeeManagement.Repository;
+using EmployeeManagement.EF.Entity;
+using EmployeeManagement.EF.Repository.Interface;
+using System.Linq;
 
 namespace EmployeeManagement.Controllers
 {
     [Route("project")]
-    public class ProjectController : Controller
+    public class ProjectController : BaseController
     {
         private readonly IProjectRepository _projectRepository;
         public ProjectController(IProjectRepository projectRepository)
@@ -25,6 +26,7 @@ namespace EmployeeManagement.Controllers
                 EndDate = x.EndDate,
 
             }).ToList();
+            ViewBag.CurrentRole = HttpContext.Session.GetString("UserRole");
             return View(projects);
         }
         [HttpGet("create")]
@@ -36,11 +38,6 @@ namespace EmployeeManagement.Controllers
         [HttpPost("create")]
         public IActionResult Create(ProjectModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                
-                return View(model);
-            }   
             var entity = new ProjectEntity
             {
                 Name = model.Name ?? string.Empty,

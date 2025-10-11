@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Controllers;
-using EmployeeManagement.Entity;
+using EmployeeManagement.EF.Entity;
 
-namespace EmployeeManagement.TestDb
+namespace EmployeeManagement.EF.TestDb
 {
     public class DbContextTest :DbContext
     {
@@ -14,9 +13,10 @@ namespace EmployeeManagement.TestDb
         public DbSet<ProductCategoryEntity> ProductCategories { get; set; }
         public DbSet<UserProjectEntity> UserProjects { get; set; }
         public DbSet<ProjectEntity> Projects { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseMySql("server=localhost;database=EmployeeManagementment;user=root;password=1234@Abcd",
+            optionsBuilder.UseMySql("server=localhost;database=employeemanagement;user=root;password=1234@Abcd",
                 new MySqlServerVersion(new Version(8, 0, 29)));
         }
     }

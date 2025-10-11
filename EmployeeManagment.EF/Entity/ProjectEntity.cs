@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EmployeeManagement.Entity
+namespace EmployeeManagement.EF.Entity
 {
     public class ProjectEntity : EntityBase
     {

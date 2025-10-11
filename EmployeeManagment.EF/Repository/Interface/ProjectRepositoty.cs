@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EmployeeManagement.EF.Entity;
+using EmployeeManagement.EF.Repository.Interface;
+using EmployeeManagement.EF.TestDb;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using EmployeeManagement.Entity;
-using EmployeeManagement.TestDb;
 
-namespace EmployeeManagement.Repository
+namespace EmployeeManagement.EF.Repository
 {
     public class ProjectRepository : IProjectRepository
     {
@@ -17,26 +18,26 @@ namespace EmployeeManagement.Repository
 
         public IEnumerable<ProjectEntity> GetAll()
         {
-            return _context.Projects
-                           .Include(p => p.UserProjects) 
-                           .ThenInclude(up => up.User)   
-                           .ToList();
+            return _context.Projects.AsNoTracking().ToList();
         }
+
         public ProjectEntity? GetById(int id)
         {
             return _context.Projects
-                           .Include(p => p.UserProjects)
-                           .ThenInclude(up => up.User)
-                           .FirstOrDefault(p => p.Id == id);
+                .Include(p => p.UserProjects) 
+                .FirstOrDefault(p => p.Id == id);
         }
-        public void Create(ProjectEntity project)
+
+        public void Create(ProjectEntity entity)
         {
-            _context.Projects.Add(project);
+            _context.Projects.Add(entity);
         }
-        public void Edit(ProjectEntity project)
+
+        public void Edit(ProjectEntity entity)
         {
-            _context.Projects.Update(project);
+            _context.Projects.Update(entity);
         }
+
         public void Delete(int id)
         {
             var project = _context.Projects.Find(id);

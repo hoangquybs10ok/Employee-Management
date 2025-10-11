@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using EmployeeManagement.Models;
-using EmployeeManagement.TestDb;
+using EmployeeManagement.EF.TestDb;
 using BCrypt.Net;
 
 namespace EmployeeManagement.Controllers
@@ -43,6 +43,8 @@ namespace EmployeeManagement.Controllers
             {
                 HttpContext.Session.SetString("UserName", user.UserName);
                 HttpContext.Session.SetString("FullName", user.FullName ?? "");
+                HttpContext.Session.SetString("UserRole", user.Role.ToString());
+
             }
             return RedirectToAction("Index", "User");
         }

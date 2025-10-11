@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EmployeeManagement.Entity
+namespace EmployeeManagement.EF.Entity
 {
     public class OrderProductEntity : EntityBase
     {

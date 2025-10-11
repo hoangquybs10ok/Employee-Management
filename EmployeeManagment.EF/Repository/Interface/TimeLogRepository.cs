@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using EmployeeManagement.Entity;
+using EmployeeManagement.EF.Entity;
 using EmployeeManagement.Models;
-using EmployeeManagement.TestDb;
+using EmployeeManagement.EF.TestDb;
+using EmployeeManagement.EF.Repository.Interface;
 
-namespace EmployeeManagement.Repository
+namespace EmployeeManagement.EF.Repository
 {
     public class TimeLogRepository : ITimeLogRepository
     {
