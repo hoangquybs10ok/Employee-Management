@@ -1,15 +1,18 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Models;
+﻿using EmployeeManagement.EF.Entity.Enums;
 using EmployeeManagement.EF.Repository.Interface;
 using EmployeeManagement.EF.TestDb;
+using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using EmployeeManagement.EF.Entity.Enums;
+using System.Security.Claims;
 
 
 namespace EmployeeManagement.Controllers
 {
     [Route("users")]
-    public class UserController : Controller
+    [Authorize(Roles = "Admin")]
+    public class UserController : BaseController
     {
         private readonly IUserRepository _userRepository;
         private readonly DbContextTest _context;
@@ -22,17 +25,14 @@ namespace EmployeeManagement.Controllers
 
         public IActionResult Index(RoleType? roleFiler)
         {
-            var session = HttpContext.Session.GetString("UserName");
-            if (session == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
             var users = _userRepository.GetAll();
             if (roleFiler.HasValue)
             {
                 users = users.Where(u => u.Role == roleFiler.Value).ToList();
             }
-            var currentRole = HttpContext.Session.GetString("UserRole");
+            var currentRole = User.FindFirst(ClaimTypes.Role)?.Value;
+            var username = User.FindFirst("FullName")?.Value;
+
             ViewBag.CurrentRole = currentRole;
             ViewBag.Roles = Enum.GetValues(typeof(RoleType))
                 .Cast<RoleType>().Select(r => new SelectListItem
@@ -42,22 +42,10 @@ namespace EmployeeManagement.Controllers
                 });
             return View(users);
         }
-        private bool IsAdmin()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.Admin.ToString();
-        }
-        private bool IsMember()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.Employee.ToString() ||
-                   role == RoleType.Manager.ToString()  ||
-                   role == RoleType.HR.ToString();
-        }
         [HttpGet("create")]
         public IActionResult Create()
-        { 
-            if(!IsAdmin())
+        {
+            if (!IsAdmin())
                 return Forbid(); //chi admin dc tao
             ViewBag.Projects = new SelectList(_context.Projects.ToList(), "Id", "Name");
             ViewBag.Roles = new SelectList(Enum.GetValues(typeof(EmployeeManagement.EF.Entity.Enums.RoleType)));
@@ -67,7 +55,7 @@ namespace EmployeeManagement.Controllers
         [HttpPost("create")]
         public IActionResult Create(UserModel model)
         {
-            if (!IsAdmin()) 
+            if (!IsAdmin())
                 return Forbid(); // kiem tra quyen
             if (!ModelState.IsValid)
             {
@@ -83,7 +71,7 @@ namespace EmployeeManagement.Controllers
         [HttpGet("edit/{id}")]
         public IActionResult Edit(int id)
         {
-            if (!IsAdmin()) 
+            if (!IsAdmin())
                 return Forbid();
             var user = _userRepository.GetById(id);
             if (user == null) return NotFound();
@@ -129,7 +117,7 @@ namespace EmployeeManagement.Controllers
                 UserName = user.UserName ?? string.Empty,
                 FullName = user.FullName ?? string.Empty,
                 Email = user.Email ?? string.Empty,
-                Role = user.Role, // hoặc user.Role.ToString() nếu Role trong UserModel là string
+                Role = user.Role,
                 ProjectIds = user.UserProjects?.Select(up => up.ProjectId).ToList() ?? new List<int>()
             };
 

@@ -1,27 +1,16 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeManagement.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
         public IActionResult Index()
         {
-            var sessionUser = HttpContext.Session.GetString("UserName");
-            if (sessionUser == null)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-
-            ViewBag.FullName = HttpContext.Session.GetString("FullName");
+            ViewBag.FullName = User.Claims.FirstOrDefault(c => c.Type == "FullName")?.Value;
             return View();
         }
 

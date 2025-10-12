@@ -1,33 +1,28 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.EF.Entity.Enums;
-
+﻿using Microsoft.AspNetCore.Mvc; // dùng cho controller, viewbag, actionresult
+using EmployeeManagement.EF.Entity.Enums; // chứa enum RoleType, admin, manager, hr, employee
+using Microsoft.AspNetCore.Authorization; // để dùng [Authorize]
+using System.Security.Claims; // đọc thông tin từ cookie authentication như ( "user name ", "role", "full name")
+using Microsoft.AspNetCore.Mvc.Filters; // để dùng OnActionExecuted (hook sau khi action dc thực thi)
 namespace EmployeeManagement.Controllers
 {
-    public class BaseController :Controller
+    [Authorize] // yêu cầu người dùng đã xác thực (đăng nhập) mới được truy cập các action trong controller nào kế thừa basecontroller.
+                // Nếu chưa đăng nhập, họ sẽ bị chuyển hướng đến trang đăng nhập account/login.
+    public class BaseController : Controller
     {
-        protected bool IsAdmin()
+        protected string? CurrentUserName => HttpContext.User.FindFirst(ClaimTypes.Name)?.Value;
+        protected string? CurrentFullName => HttpContext.User.FindFirst("FullName")?.Value;
+        protected string? CurrentRole => HttpContext.User.FindFirst(ClaimTypes.Role)?.Value;
+        protected bool IsAdmin() => CurrentRole == RoleType.Admin.ToString();
+        protected bool IsManager() => CurrentRole == RoleType.Manager.ToString();
+        protected bool IsHR() => CurrentRole == RoleType.HR.ToString();
+        protected bool IsEmployee() => CurrentRole == RoleType.Employee.ToString();
+        protected bool IsMember() => IsEmployee() || IsManager() || IsHR();
+        public override void OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext context)
         {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.Admin.ToString();
-        }
-        protected bool IsManager()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.Manager.ToString();
-        }
-        protected bool IsHR()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.HR.ToString();
-        }
-        protected bool IsEmployee()
-        {
-            var role = HttpContext.Session.GetString("UserRole");
-            return role == RoleType.Employee.ToString();
-        }
-        protected bool IsMember()
-        {
-            return IsManager () || IsHR() || IsEmployee();
+            ViewBag.CurrentUserName = CurrentUserName;
+            ViewBag.CurrentFullName = CurrentFullName;
+            ViewBag.CurrentRole = CurrentRole;
+            base.OnActionExecuted(context);
         }
     }
 }

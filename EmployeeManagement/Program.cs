@@ -1,10 +1,11 @@
-﻿using EmployeeManagement.EF.Entity;
+﻿
 using EmployeeManagement.EF.Repository;
 using EmployeeManagement.EF.Repository.Interface;
 using EmployeeManagement.EF.TestDb;
-using EmployeeManagement.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.IdentityModel.Tokens;  
+using System.Text;                     
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,10 +22,20 @@ builder.Services.AddSession(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
-
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "my_secret_jwt_key_123!";
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+}).AddCookie(options =>
+{
+    options.LoginPath = "/account/login";
+    options.LogoutPath = "/account/accessdenied";
+    options.ExpireTimeSpan = TimeSpan.FromDays(1);
+});
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -40,6 +51,7 @@ app.UseRouting();
 
 app.UseSession();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

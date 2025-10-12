@@ -29,7 +29,7 @@ namespace EmployeeManagement.Controllers
                 Description = x.Description,
                 Task = x.Task,
             }).ToList();
-            ViewBag.CurrentRole = HttpContext.Session.GetString("UserRole");
+            
             return View(timelogs);
         }
         [HttpGet("create")]
