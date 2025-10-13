@@ -3,7 +3,6 @@ using EmployeeManagement.Models;
 using EmployeeManagement.EF.Entity;
 using EmployeeManagement.EF.Repository.Interface;
 
-
 namespace EmployeeManagement.Controllers
 {
     [Route("timelog")]
@@ -16,7 +15,6 @@ namespace EmployeeManagement.Controllers
             _timeLogRepository = timeLogRepository;
             _userRepository = userRepository;
         }
-
         public IActionResult Index()
         {
             var timelogs = _timeLogRepository.GetAll()

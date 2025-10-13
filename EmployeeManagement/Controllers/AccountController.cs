@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace EmployeeManagement.Controllers
 {
     [Route("account")]
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly DbContextTest _context;
@@ -56,6 +57,7 @@ namespace EmployeeManagement.Controllers
                 new Claim(ClaimTypes.Name, user.UserName ?? ""),
                 new Claim("FullName", user.FullName ?? ""),
                 new Claim("Email", user.Email ?? ""),
+                new Claim("Id", user.Id.ToString()),
                 new Claim(ClaimTypes.Role, user.Role.ToString() ?? "User")
             };
 
