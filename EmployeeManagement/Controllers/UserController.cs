@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace EmployeeManagement.Controllers
 {
     [Route("users")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,HR,Manager")]
     public class UserController : BaseController
     {
         private readonly IUserRepository _userRepository;

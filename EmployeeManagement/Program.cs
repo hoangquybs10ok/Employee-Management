@@ -5,30 +5,31 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+//  Add services
 builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 builder.Services.AddDbContext<DbContextTest>();
 
-// Cookie Authentication
+// Authentication bằng Cookie
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
-        options.LoginPath = "/account/login";
-        options.AccessDeniedPath = "/account/accessdenied";
-        options.ExpireTimeSpan = TimeSpan.FromDays(1);
-        options.SlidingExpiration = true;
+        options.LoginPath = "/account/login";                // Khi chưa đăng nhập
+        options.AccessDeniedPath = "/account/accessdenied"; // Khi bị cấm truy cập
+        options.ExpireTimeSpan = TimeSpan.FromDays(1);     // Cookie tồn tại 1 ngày
+        options.SlidingExpiration = true;                 // Tự động làm mới thời gian
     });
 
+//  Authorization
 builder.Services.AddAuthorization();
 
-// Repository
+//  Đăng ký Repository
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
 
 var app = builder.Build();
 
-// Middleware pipeline
+// Middlewares
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -37,9 +38,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

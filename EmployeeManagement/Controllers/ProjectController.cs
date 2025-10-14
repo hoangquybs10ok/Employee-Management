@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Models;
-using EmployeeManagement.EF.Entity;
+﻿using EmployeeManagement.EF.Entity;
 using EmployeeManagement.EF.Repository.Interface;
+using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace EmployeeManagement.Controllers
 {
     [Route("project")]
+    [Authorize(Roles = "Admin,HR,Manager")]
     public class ProjectController : BaseController
     {
         private readonly IProjectRepository _projectRepository;
@@ -26,7 +28,7 @@ namespace EmployeeManagement.Controllers
                 EndDate = x.EndDate,
 
             }).ToList();
-            ViewBag.CurrentRole = HttpContext.Session.GetString("UserRole");
+           
             return View(projects);
         }
         [HttpGet("create")]
