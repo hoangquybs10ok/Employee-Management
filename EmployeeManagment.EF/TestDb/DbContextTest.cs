@@ -19,5 +19,16 @@ namespace EmployeeManagement.EF.TestDb
             optionsBuilder.UseMySql("server=localhost;database=employeemanagement;user=root;password=1234@Abcd",
                 new MySqlServerVersion(new Version(8, 0, 29)));
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Cấu hình quan hệ giữa User và TimeLog
+            modelBuilder.Entity<TimeLogEntity>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.TimeLogs)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }

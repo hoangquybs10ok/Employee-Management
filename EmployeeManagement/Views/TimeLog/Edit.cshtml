@@ -1,23 +1,27 @@
-﻿@model EmployeeManagement.Models.TimeLogModel
+﻿@using System.Security.Claims
+@using EmployeeManagement.EF.Entity.Enums
+@model EmployeeManagement.Models.TimeLogModel
 
 @{
     ViewData["Title"] = "Edit TimeLog";
     var employees = ViewBag.Employee as List<EmployeeManagement.EF.Entity.UserEntity>;
+    var userRole = User.FindFirst(ClaimTypes.Role)?.Value;
 }
 
 <h2>Edit TimeLog</h2>
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="Id" />
-
-    <div class="form-group">
-        <label for="UserId">Employee</label>
-        <select asp-for="UserId"
-                asp-items="@(new SelectList(ViewBag.Employee, "Id", "FullName", Model.UserId))"
-                class="form-control">
-            <option value="">-- Select Employee --</option>
-        </select>
-        <span asp-validation-for="UserId" class="text-danger"></span>
-    </div>
+    @if (userRole != RoleType.Employee.ToString())
+    {
+        <div class="form-group">
+            <label for="UserId">Employee</label>
+            <select asp-for="UserId"
+                    asp-items="@(new SelectList(ViewBag.Employee, "Id", "FullName", Model.UserId))"
+                    class="form-control">
+                <option value="">-- Select Employee --</option>
+            </select>
+        </div>
+    }
     <div class="form-group">
         <label asp-for="CheckIn"></label>
         <input asp-for="CheckIn" type="datetime-local" class="form-control" />

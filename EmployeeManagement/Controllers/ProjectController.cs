@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using EmployeeManagement.Models;
-using EmployeeManagement.EF.Entity;
+﻿using EmployeeManagement.EF.Entity;
 using EmployeeManagement.EF.Repository.Interface;
+using EmployeeManagement.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace EmployeeManagement.Controllers
 {
     [Route("project")]
+    [Authorize]
     public class ProjectController : BaseController
     {
         private readonly IProjectRepository _projectRepository;
@@ -26,16 +28,20 @@ namespace EmployeeManagement.Controllers
                 EndDate = x.EndDate,
 
             }).ToList();
-            ViewBag.CurrentRole = HttpContext.Session.GetString("UserRole");
+           
             return View(projects);
         }
+
         [HttpGet("create")]
+        [Authorize(Roles = "Admin,HR,Manager")]
         public IActionResult Create()
         {
            
             return View();
         }
+
         [HttpPost("create")]
+        [Authorize(Roles = "Admin,HR,Manager")]
         public IActionResult Create(ProjectModel model)
         {
             var entity = new ProjectEntity
@@ -49,6 +55,8 @@ namespace EmployeeManagement.Controllers
             _projectRepository.Save();
             return RedirectToAction("Index");
         }
+
+        [Authorize]
         [HttpGet("detail/{id}")]
         public IActionResult Detail(int id)
         {
@@ -67,6 +75,8 @@ namespace EmployeeManagement.Controllers
             };
             return View(model);
         }
+
+        [Authorize(Roles = "Admin,HR,Manager")]
         [HttpGet("edit/{id}")]
         public IActionResult Edit(int id)
         {
@@ -86,6 +96,8 @@ namespace EmployeeManagement.Controllers
             
             return View(model);
         }
+
+        [Authorize(Roles = "Admin,HR,Manager")]
         [HttpPost("edit/{id}")]
         public IActionResult Edit(int id, ProjectModel model)
         {
@@ -106,6 +118,8 @@ namespace EmployeeManagement.Controllers
             _projectRepository.Save();
             return RedirectToAction("Index");
         }
+
+        [Authorize(Roles = "Admin,HR,Manager")]
         [HttpGet("delete/{id}")]
         public IActionResult Delete(int id)
         {

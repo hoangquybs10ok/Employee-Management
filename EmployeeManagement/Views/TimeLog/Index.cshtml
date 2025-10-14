@@ -2,10 +2,10 @@
 
 @{
     ViewData["Title"] = "TimeLog Management";
-    var role = ViewBag.CurrentRole.ToString();
+    var role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "";
 }
 
-@if (role == "Admin")
+@if (role == "Admin" || role =="Employee")
 {
     <div class="col-md-12">
         <a type="button" class="btn btn-primary btn-create" href="/timelog/create">Create</a>
@@ -29,14 +29,14 @@
                 @foreach (var time in Model)
                 {
                     <tr>
-                        <td>@time.UserId</td>
+                        <td>@time.UserName</td>
                         <td>@time.CheckIn</td>
                         <td>@time.CheckOut</td>
                         <td>@time.Task</td>
                         <td>@time.Description</td>
                         <td>
                             <a asp-action="Detail" asp-route-id="@time.Id" class="btn btn-sm btn-info">Details</a>
-                            @if (role == "Admin")
+                            @if (role == "Admin" || role =="Employee")
                             {
                                 <a asp-action="Edit" asp-route-id="@time.Id" class="btn btn-sm btn-warning">Edit</a>
                                 <a asp-action="Delete" asp-route-id="@time.Id" class="btn btn-sm btn-danger">Delete</a>

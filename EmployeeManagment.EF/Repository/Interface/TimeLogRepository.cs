@@ -80,7 +80,8 @@ namespace EmployeeManagement.EF.Repository
 
         public IEnumerable<TimeLogEntity> GetAll()
         {
-            return _context.TimeLogs.AsNoTracking().ToList();
+            return _context.TimeLogs
+                .Include(x => x.User).AsNoTracking().ToList();
         }
     }
 }
