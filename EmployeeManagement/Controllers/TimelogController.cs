@@ -78,6 +78,9 @@ namespace EmployeeManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(TimeLogModel model)
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var userIdClaim = User.FindFirstValue("Id");
+            int.TryParse(userIdClaim, out int userId);
             if (!ModelState.IsValid)
             {
                 ViewBag.Employee = _userRepository.GetAll();
@@ -100,6 +103,9 @@ namespace EmployeeManagement.Controllers
         [HttpGet("detail/{id}")]
         public IActionResult Detail(int id)
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var userIdClaim = User.FindFirstValue("Id");
+            int.TryParse(userIdClaim, out int userId);
             var timelog = _timeLogRepository.Detail(id);
             if (timelog == null)
                 return NotFound();
@@ -117,6 +123,9 @@ namespace EmployeeManagement.Controllers
         [HttpGet("edit/{id}")]
         public IActionResult Edit(int id)
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var userIdClaim = User.FindFirstValue("Id");
+            int.TryParse(userIdClaim, out int userId);
             var entity = _timeLogRepository.GetById(id);
             if (entity == null)
                 return NotFound();
@@ -159,6 +168,9 @@ namespace EmployeeManagement.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, TimeLogModel model)
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var userIdClaim = User.FindFirstValue("Id");
+            int.TryParse(userIdClaim, out int userId);
             if (!ModelState.IsValid)
             {
                 ViewBag.Employee = _userRepository.GetAll();
@@ -182,6 +194,9 @@ namespace EmployeeManagement.Controllers
         [HttpGet("delete/{id}")]
         public IActionResult Delete(int id)
         {
+            var role = User.FindFirstValue(ClaimTypes.Role);
+            var userIdClaim = User.FindFirstValue("Id");
+            int.TryParse(userIdClaim, out int userId);
             var entity = _timeLogRepository.GetById(id);
             if (entity == null)
                 return NotFound();
