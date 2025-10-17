@@ -1,6 +1,8 @@
 ﻿using EmployeeManagement.EF.Repository;
 using EmployeeManagement.EF.Repository.Interface;
 using EmployeeManagement.EF.TestDb;
+using EmployeeManagement.Service;
+using EmployeeManagement.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,6 +28,8 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
 builder.Services.AddScoped<ITimeLogRepository, TimeLogRepository>();
+builder.Services.AddScoped<IEmailservice, EmailService>();
+builder.Services.AddScoped<ILateTimeService, LateTimeService>();
 
 var app = builder.Build();
 

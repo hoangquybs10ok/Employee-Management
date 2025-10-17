@@ -39,7 +39,7 @@ namespace EmployeeManagement.Controllers
             {
                 Id = x.Id,
                 UserId = x.UserId,
-                UserName = x.User.UserName,
+                UserName = x.User!.UserName,
                 CheckIn = x.CheckIn,
                 CheckOut = x.CheckOut,
                 Description = x.Description,
@@ -87,8 +87,6 @@ namespace EmployeeManagement.Controllers
                 return View(model);
             }
 
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue("Id") ?? "0");
 
             // Employee chỉ được thêm TimeLog của chính mình
             if (role == RoleType.Employee.ToString())
@@ -110,9 +108,6 @@ namespace EmployeeManagement.Controllers
             if (timelog == null)
                 return NotFound();
 
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue("Id") ?? "0");
-
             // Employee chỉ xem chi tiết log của chính mình
             if (role == "Employee" && timelog.UserId != userId)
                 return RedirectToAction("AccessDenied", "Account");
@@ -130,8 +125,6 @@ namespace EmployeeManagement.Controllers
             if (entity == null)
                 return NotFound();
 
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue("Id") ?? "0");
 
             // Employee chỉ được sửa TimeLog của chính mình
             if (role == "Employee" && entity.UserId != userId)
@@ -177,8 +170,6 @@ namespace EmployeeManagement.Controllers
                 return View(model);
             }
 
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue("Id") ?? "0");
             var entity = _timeLogRepository.GetById(id);
 
             if (entity == null)
@@ -201,8 +192,6 @@ namespace EmployeeManagement.Controllers
             if (entity == null)
                 return NotFound();
 
-            var role = User.FindFirstValue(ClaimTypes.Role);
-            var userId = int.Parse(User.FindFirstValue("Id") ?? "0");
 
             if (role == "Employee" && entity.UserId != userId)
                 return RedirectToAction("AccessDenied", "Account");
