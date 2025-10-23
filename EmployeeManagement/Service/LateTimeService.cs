@@ -51,15 +51,21 @@ namespace EmployeeManagement.Services
             }
             sb.Append("</table>");
 
-            // Gửi email (cho admin hoặc từng user tuỳ bạn)
-            var email = new EmailSendModel
-            {
-                To = "hoangquyhotboy@gmail.com", // email nhận báo cáo
-                Subject = $"Báo cáo giờ làm việc ngày {yesterday:dd/MM/yyyy}",
-                Body = sb.ToString()
-            };
+            var admin = _context.Users.Where(x => x.Role == EF.Entity.Enums.RoleType.Admin)
+                .ToList();
 
-            _emailService.SendMail(email);
+            foreach (var user in admin)
+            {
+                var email = new EmailSendModel
+                {
+                    To = user.Email!,
+                    Subject = $"Báo cáo giờ làm việc ngày {yesterday:dd/MM/yyyy}",
+                    Body = sb.ToString()
+                };
+
+                _emailService.SendMail(email);
+            }
+
         }
     }
 }
